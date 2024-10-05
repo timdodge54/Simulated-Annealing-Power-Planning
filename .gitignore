@@ -1,0 +1,9 @@
+build/
+install/
+log/
+.vscode/
+venv/
+.cache/
+.mypy_cache/
+compile_commands.json
+documentation/

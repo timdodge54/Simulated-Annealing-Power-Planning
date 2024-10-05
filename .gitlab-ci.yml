@@ -1,0 +1,66 @@
+image: osrf/ros:humble-desktop 
+
+before_script:
+    - sudo apt update  
+    - sudo apt upgrade -y 
+    - sudo apt install software-properties-common -y 
+    - sudo apt install python3-pip -y
+    - source /opt/ros/humble/setup.bash
+
+stages:
+  - .pre
+  - build
+
+build:
+  stage: build
+  script:
+    - mkdir src
+    - mv cc_msgs src/
+    - mv power_energy_propogation/ src/
+    - python3 -m pip install matplotlib numpy
+    - colcon build --packages-select cc_msgs --symlink-install
+    - . install/local_setup.bash
+    - colcon build --symlink-install
+    - . install/local_setup.bash
+
+test:
+  stage: build
+  script: 
+    - mkdir src
+    - mv cc_msgs src/
+    - mv power_energy_propogation/ src/
+    - colcon build --packages-select cc_msgs --symlink-install
+    - . install/local_setup.bash
+    - colcon build --symlink-install
+    - . install/local_setup.bash
+    - colcon test --packages-select power_energy_propogation
+    - colcon test-result --all --verbose
+
+cppcheck:
+  stage: .pre
+  script:
+    - sudo apt install cppcheck
+    - cppcheck .
+mypy:
+  stage: .pre
+  script:
+    - pip install mypy 
+    - cd power_energy_propogation
+    - python3 -m mypy .
+
+pydocstyle:
+  stage: .pre
+  script:
+    - pip install pydocstyle
+    - cd power_energy_propogation
+    - python3 -m pydocstyle .
+
+flake8:
+  stage: .pre
+  script:
+    - pip install flake8
+    - cd power_energy_propogation
+    - python3 -m flake8 .
+
+      
+      
