@@ -15,7 +15,7 @@ To use wstool, do the following:
 
 ```
 - git: {local-name: connected_communities_SA,
-       uri: 'git@gitlab.com:utahstate/droge-robotics/sandbox/tim-dodge/connected_communities_sa.git',
+       uri: 'git@github.com:timdodge54/Simulated-Annealing-Power-Planning.git',
        version: main}
 ```
 
